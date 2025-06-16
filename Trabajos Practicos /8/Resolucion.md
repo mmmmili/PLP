@@ -76,4 +76,68 @@ con una letra mayúscula o con un guión bajo. Por ejemplo: `X`, `Y`, `_etiqueta
 | p(q(-1,0),P2,P3)                | p(P1, q(1,0), q(0,Y))           |       N     |
 
 
+## Ejercicio 6
+[1,2,3,4,5,6,7]
 
+a) [1|2, 3, 4, 5, 6, 7]
+❌ Inválido
+No se puede usar | seguido por varios elementos, solo uno.
+Error de sintaxis
+
+b) [1, 2, 3, 4, 5, 6, 7|[]]
+✅ Equivalente
+[a, b, c | []] es lo mismo que [a, b, c]
+
+c) [1|[2, 3, 4, 5, 6, 7]]
+✅ Equivalente
+
+d) [1, 2, 3 | [4 | [5, 6, 7]]]
+✅ Equivalente
+
+f) [1, 2 | [3, 4, 5, 6, 7, []]]
+❌ No equivalente
+El último elemento es una lista que incluye [] como elemento literal:
+Resultado: [1, 2, 3, 4, 5, 6, 7, []]
+
+g) [1, 2 | [3, 4, 5, 6, 7 | []]]
+✅ Equivalente
+[3, 4, 5, 6, 7 | []] = [3, 4, 5, 6, 7]
+[1, 2 | [3, 4, 5, 6, 7]] = [1, 2, 3, 4, 5, 6, 7]
+
+h) [1, 2, [3, 4[5, 6, [7]]]]
+❌ Inválido
+[4[5,...]] no es sintaxis válida
+Error de sintaxis
+
+i) [1|[2|[3|[4|[5|[6|[7|[]]]]]]]]
+✅ Equivalente
+Es la definición “cons” paso a paso
+Exactamente igual a [1,2,3,4,5,6,7]
+
+## Ejercicio 7
+### Concatenar
+```
+concatenar([],L,L).
+
+concatenar([X|X1],L2,[X|R]):-
+    concatenar(X1,L2,R).
+```
+
+### Pertenencia de un elemento.
+
+```
+pertenece(X,[X|_]).
+
+pertenece(X, [_|T]):-
+    pertenece(X,T).
+```
+
+### ocurrencias de un elemento
+```
+ocurrencias(_, [], 0).
+ocurrencias(X, [X|T], N) :-
+    ocurrencias(X, T, N1),
+    N is N1 + 1.
+ocurrencias(X, [_|T], N) :-
+    ocurrencias(X, T, N).
+```
